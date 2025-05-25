@@ -1,0 +1,57 @@
+# Meteora监控平台 V2.0 - Python依赖
+
+# Web框架
+Flask==2.3.3
+Flask-CORS==4.0.0
+Flask-SocketIO==5.3.6
+
+# 数据处理
+pandas==2.0.3
+numpy==1.24.3
+PyYAML==6.0.1
+
+# 任务调度
+APScheduler==3.10.4
+
+# 数据库
+sqlite3  # Python内置
+
+# HTTP请求
+requests==2.31.0
+urllib3==2.0.4
+
+# 日期时间处理
+python-dateutil==2.8.2
+
+# 数据验证
+pydantic==2.1.1
+
+# 异步和并发
+aiohttp==3.8.5
+asyncio  # Python内置
+
+# WebSocket支持
+websockets==11.0.3
+
+# 数据可视化（可选，用于高级功能）
+plotly==5.15.0
+bokeh==3.2.1
+
+# 性能监控
+psutil==5.9.5
+
+# 开发和调试
+pytest==7.4.0
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+
+# API相关
+httpx==0.24.1
+
+# 前端资源 (CDN或本地引入)
+# Bootstrap 5.3 - 暗色主题定制
+# Chart.js 4.0 - 暗色主题配置
+# Inter字体族 - Google Fonts或本地文件
+
+# 生产部署 (可选)
+gunicorn==21.2.0 

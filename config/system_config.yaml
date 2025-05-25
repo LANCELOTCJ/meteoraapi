@@ -1,0 +1,57 @@
+# 系统级配置 - 启动时加载，需要重启才能生效
+system:
+  # 数据采集配置
+  data_collection:
+    # 更新策略配置（用户可根据实测效果调整）
+    full_update_interval_minutes: 5      # 全量更新间隔（分钟）
+    incremental_update_seconds: 30       # 增量更新间隔（秒）
+    enable_incremental_update: true      # 是否启用增量更新
+    api_timeout_seconds: 30              # API请求超时时间
+    max_retry_attempts: 3                # 最大重试次数
+    batch_size: 1000                     # 每次请求的数据量
+    
+    # 智能更新策略
+    adaptive_update: false               # 是否启用自适应更新（根据活跃度调整频率）
+    max_update_interval_minutes: 30     # 最大更新间隔
+    min_update_interval_seconds: 10     # 最小更新间隔
+    
+  # 数据库配置
+  database:
+    path: "data/meteora.db"              # 数据库文件路径
+    backup_interval_hours: 24            # 备份间隔（小时）
+    data_retention_days: 7               # 数据保留天数
+    
+    # 性能优化配置
+    enable_wal_mode: true                # 启用WAL模式提升并发性能
+    cache_size_mb: 256                   # SQLite缓存大小（MB）
+    auto_vacuum: true                    # 自动清理空间
+    enable_query_optimization: true     # 启用查询优化
+    
+    # 扩展预留配置（暂不启用）
+    future_extensions:
+      postgresql_support: false         # PostgreSQL支持预留
+      redis_cache: false                # Redis缓存预留
+      multi_user_support: false         # 多用户支持预留
+    
+  # 服务器配置
+  server:
+    host: "0.0.0.0"                      # 服务器地址
+    port: 5000                           # 服务器端口
+    debug: false                         # 调试模式
+    
+  # 日志配置
+  logging:
+    level: "INFO"                        # 日志级别
+    file_path: "logs/app.log"            # 日志文件路径
+    max_file_size_mb: 100                # 单个日志文件最大大小
+    backup_count: 5                      # 日志文件备份数量
+
+# API配置
+api:
+  meteora:
+    base_url: "https://dlmm-api.meteora.ag"
+    endpoints:
+      all_pairs: "/pair/all_with_pagination"
+    headers:
+      user_agent: "Meteora-Monitor-V2/1.0"
+      accept: "application/json" 

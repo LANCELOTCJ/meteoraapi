@@ -1,0 +1,1079 @@
+/**
+ * Meteora监控平台 V2.0 - 主要样式文件
+ * 基于Meteora官网的暗色调设计风格
+ */
+
+/* ==================== 颜色变量定义 ==================== */
+:root {
+    /* Meteora 主色调 */
+    --meteora-bg-primary: #0a0b0f;
+    --meteora-bg-secondary: #1a1b23;
+    --meteora-bg-tertiary: #2a2d35;
+    --meteora-border: #3a3d45;
+
+    /* 强调色 */
+    --meteora-accent-cyan: #00d4ff;
+    --meteora-accent-purple: #7c3aed;
+    --meteora-accent-green: #06ffa5;
+    --meteora-accent-orange: #ff6b35;
+
+    /* 文本颜色 */
+    --meteora-text-primary: #ffffff;
+    --meteora-text-secondary: #b0b3b8;
+    --meteora-text-muted: #6b7280;
+
+    /* 状态颜色 */
+    --meteora-success: #10b981;
+    --meteora-warning: #f59e0b;
+    --meteora-error: #ef4444;
+
+    /* 字体 */
+    --meteora-font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --meteora-font-size-xs: 11px;
+    --meteora-font-size-sm: 12px;
+    --meteora-font-size-base: 14px;
+    --meteora-font-size-lg: 16px;
+
+    /* 间距 */
+    --meteora-spacing-xs: 0.25rem;
+    --meteora-spacing-sm: 0.5rem;
+    --meteora-spacing-md: 1rem;
+    --meteora-spacing-lg: 1.5rem;
+    --meteora-spacing-xl: 2rem;
+
+    /* 阴影 */
+    --meteora-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --meteora-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4);
+    --meteora-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.5);
+
+    /* 圆角 */
+    --meteora-radius-sm: 4px;
+    --meteora-radius-md: 8px;
+    --meteora-radius-lg: 12px;
+
+    /* 过渡动画 */
+    --meteora-transition: all 0.2s ease-in-out;
+    --meteora-transition-fast: all 0.1s ease-in-out;
+    --meteora-transition-slow: all 0.3s ease-in-out;
+}
+
+/* ==================== 基础样式重置 ==================== */
+* {
+    box-sizing: border-box;
+}
+
+body.meteora-dark {
+    font-family: var(--meteora-font-family);
+    font-size: var(--meteora-font-size-base);
+    background: linear-gradient(135deg, var(--meteora-bg-primary) 0%, #0f1419 100%);
+    color: var(--meteora-text-primary);
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* ==================== 导航栏样式 ==================== */
+.navbar.bg-dark-primary {
+    background: linear-gradient(90deg, var(--meteora-bg-secondary), #252832) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--meteora-border);
+    box-shadow: var(--meteora-shadow-md);
+    height: 60px;
+    z-index: 1030;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    color: var(--meteora-text-primary) !important;
+    font-size: 1.1rem;
+}
+
+.brand-text {
+    background: linear-gradient(135deg, var(--meteora-accent-cyan), var(--meteora-accent-green));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.version-badge {
+    background: var(--meteora-accent-purple);
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: var(--meteora-radius-sm);
+    margin-left: 8px;
+    font-weight: 500;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    color: var(--meteora-text-secondary);
+    font-size: var(--meteora-font-size-sm);
+}
+
+/* ==================== 主容器布局 ==================== */
+.main-container {
+    display: flex;
+    margin-top: 60px;
+    min-height: calc(100vh - 60px);
+}
+
+/* ==================== 侧边栏样式 ==================== */
+.sidebar {
+    width: 320px;
+    background: var(--meteora-bg-secondary);
+    border-right: 1px solid var(--meteora-border);
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.sidebar-content {
+    padding: var(--meteora-spacing-lg);
+}
+
+/* ==================== 面板样式 ==================== */
+.filter-panel,
+.config-panel {
+    background: var(--meteora-bg-tertiary);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-md);
+    overflow: hidden;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--meteora-spacing-md);
+    background: linear-gradient(90deg, var(--meteora-bg-secondary), #252832);
+    border-bottom: 1px solid var(--meteora-border);
+}
+
+.panel-title {
+    font-size: var(--meteora-font-size-base);
+    font-weight: 600;
+    color: var(--meteora-text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.panel-title i {
+    color: var(--meteora-accent-cyan);
+}
+
+.panel-actions {
+    display: flex;
+    gap: var(--meteora-spacing-xs);
+}
+
+.panel-body {
+    padding: var(--meteora-spacing-md);
+}
+
+/* ==================== 筛选器样式 ==================== */
+.filter-section,
+.config-section {
+    margin-bottom: var(--meteora-spacing-lg);
+}
+
+.filter-label {
+    display: block;
+    font-size: var(--meteora-font-size-xs);
+    font-weight: 500;
+    color: #ffffff !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--meteora-spacing-sm);
+}
+
+/* ==================== 表单控件样式 ==================== */
+.meteora-input {
+    background: var(--meteora-bg-primary) !important;
+    border: 1px solid var(--meteora-border) !important;
+    color: #ffffff !important;
+    font-size: var(--meteora-font-size-sm) !important;
+    transition: var(--meteora-transition);
+}
+
+.meteora-input:focus {
+    border-color: var(--meteora-accent-cyan) !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 212, 255, 0.1) !important;
+}
+
+.meteora-input::placeholder {
+    color: #ffffff !important;
+    opacity: 0.7;
+}
+
+.meteora-select {
+    background: var(--meteora-bg-primary) !important;
+    border: 1px solid var(--meteora-border) !important;
+    color: #ffffff !important;
+    font-size: var(--meteora-font-size-sm) !important;
+}
+
+.meteora-select:focus {
+    border-color: var(--meteora-accent-cyan) !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 212, 255, 0.1) !important;
+}
+
+.meteora-range {
+    accent-color: var(--meteora-accent-cyan);
+}
+
+/* ==================== 范围筛选器样式 ==================== */
+.range-filter {
+    width: 100%;
+}
+
+.range-inputs {
+    display: flex;
+    align-items: center;
+    gap: var(--meteora-spacing-sm);
+    margin-bottom: var(--meteora-spacing-sm);
+}
+
+.range-separator {
+    color: #ffffff !important;
+    font-size: var(--meteora-font-size-sm);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--meteora-font-size-xs);
+}
+
+/* ==================== 主内容区域 ==================== */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--meteora-bg-primary);
+    overflow: hidden;
+}
+
+/* ==================== 工具栏样式 ==================== */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--meteora-spacing-lg);
+    background: var(--meteora-bg-secondary);
+    border-bottom: 1px solid var(--meteora-border);
+}
+
+.toolbar-left,
+.toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: var(--meteora-spacing-md);
+}
+
+.page-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--meteora-text-primary);
+}
+
+.result-count {
+    color: #ffffff !important;
+    font-size: var(--meteora-font-size-sm);
+}
+
+/* ==================== 按钮样式 ==================== */
+.btn-outline-accent {
+    border-color: var(--meteora-accent-cyan);
+    color: var(--meteora-accent-cyan);
+    background: transparent;
+    transition: var(--meteora-transition);
+}
+
+.btn-outline-accent:hover,
+.btn-outline-accent:focus {
+    background: var(--meteora-accent-cyan);
+    border-color: var(--meteora-accent-cyan);
+    color: var(--meteora-bg-primary);
+    box-shadow: 0 0 0 0.2rem rgba(0, 212, 255, 0.2);
+}
+
+.btn-accent {
+    background: var(--meteora-accent-cyan);
+    border-color: var(--meteora-accent-cyan);
+    color: var(--meteora-bg-primary);
+    font-weight: 500;
+}
+
+.btn-accent:hover,
+.btn-accent:focus {
+    background: #00b8e6;
+    border-color: #00b8e6;
+    color: var(--meteora-bg-primary);
+}
+
+/* ==================== 表格容器 ==================== */
+.table-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-wrapper {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+}
+
+/* ==================== 表格样式 ==================== */
+.meteora-table {
+    font-size: var(--meteora-font-size-sm);
+    margin: 0;
+    background: transparent;
+}
+
+.meteora-table th {
+    background: var(--meteora-bg-secondary);
+    border-color: var(--meteora-border);
+    color: var(--meteora-text-secondary);
+    font-weight: 600;
+    font-size: var(--meteora-font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.75rem 0.5rem;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.meteora-table td {
+    border-color: var(--meteora-border);
+    color: var(--meteora-text-primary);
+    padding: 0.5rem;
+    vertical-align: middle;
+    font-size: var(--meteora-font-size-sm);
+}
+
+.meteora-table tbody tr:hover {
+    background: rgba(0, 212, 255, 0.05);
+    transition: var(--meteora-transition-fast);
+}
+
+/* ==================== 加载和空状态 ==================== */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 11, 15, 0.8);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.loading-spinner {
+    text-align: center;
+    color: var(--meteora-text-primary);
+}
+
+.loading-text {
+    color: var(--meteora-text-secondary);
+    font-size: var(--meteora-font-size-sm);
+    margin: 0;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--meteora-spacing-xl);
+    text-align: center;
+    min-height: 400px;
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: var(--meteora-spacing-lg);
+}
+
+.empty-title {
+    color: var(--meteora-text-primary);
+    margin-bottom: var(--meteora-spacing-sm);
+}
+
+.empty-message {
+    color: var(--meteora-text-muted);
+    margin-bottom: var(--meteora-spacing-lg);
+}
+
+/* ==================== 分页样式 ==================== */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--meteora-spacing-lg);
+    background: var(--meteora-bg-secondary);
+    border-top: 1px solid var(--meteora-border);
+}
+
+.meteora-pagination .page-link {
+    background: var(--meteora-bg-tertiary);
+    border-color: var(--meteora-border);
+    color: var(--meteora-text-primary);
+    font-size: var(--meteora-font-size-sm);
+}
+
+.meteora-pagination .page-link:hover {
+    background: var(--meteora-accent-cyan);
+    border-color: var(--meteora-accent-cyan);
+    color: var(--meteora-bg-primary);
+}
+
+.meteora-pagination .page-item.active .page-link {
+    background: var(--meteora-accent-cyan);
+    border-color: var(--meteora-accent-cyan);
+    color: var(--meteora-bg-primary);
+}
+
+/* ==================== 模态框样式 ==================== */
+.modal-content.bg-dark-secondary {
+    background: var(--meteora-bg-secondary) !important;
+    border: 1px solid var(--meteora-border);
+}
+
+.modal-header.border-dark {
+    border-bottom-color: var(--meteora-border) !important;
+}
+
+.modal-footer.border-dark {
+    border-top-color: var(--meteora-border) !important;
+}
+
+.nav-tabs-dark .nav-link {
+    color: var(--meteora-text-secondary);
+    border-color: transparent;
+}
+
+.nav-tabs-dark .nav-link.active {
+    color: var(--meteora-accent-cyan);
+    background: var(--meteora-bg-tertiary);
+    border-color: var(--meteora-border) var(--meteora-border) var(--meteora-bg-tertiary);
+}
+
+/* ==================== 响应式设计 ==================== */
+@media (max-width: 1200px) {
+    .sidebar {
+        width: 280px;
+    }
+}
+
+@media (max-width: 992px) {
+    .sidebar {
+        width: 260px;
+    }
+
+    .toolbar {
+        flex-direction: column;
+        gap: var(--meteora-spacing-md);
+        align-items: stretch;
+    }
+
+    .toolbar-left,
+    .toolbar-right {
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        order: 2;
+        max-height: 50vh;
+    }
+
+    .main-content {
+        order: 1;
+    }
+
+    .btn-text {
+        display: none;
+    }
+
+    .pagination-container {
+        flex-direction: column;
+        gap: var(--meteora-spacing-md);
+    }
+}
+
+/* ==================== 工具提示样式 ==================== */
+.tooltip {
+    font-size: var(--meteora-font-size-xs);
+}
+
+.tooltip-inner {
+    background: var(--meteora-bg-tertiary);
+    color: var(--meteora-text-primary);
+    border: 1px solid var(--meteora-border);
+}
+
+/* ==================== 下拉菜单样式 ==================== */
+.dropdown-menu-dark {
+    background: var(--meteora-bg-tertiary);
+    border: 1px solid var(--meteora-border);
+}
+
+.dropdown-item {
+    color: var(--meteora-text-primary);
+    font-size: var(--meteora-font-size-sm);
+}
+
+.dropdown-item:hover {
+    background: var(--meteora-accent-cyan);
+    color: var(--meteora-bg-primary);
+}
+
+/* ==================== 滚动条样式 ==================== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--meteora-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--meteora-border);
+    border-radius: var(--meteora-radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--meteora-accent-cyan);
+}
+
+/* ==================== 辅助类 ==================== */
+.text-accent-cyan {
+    color: var(--meteora-accent-cyan) !important;
+}
+
+.text-accent-green {
+    color: var(--meteora-accent-green) !important;
+}
+
+.text-accent-purple {
+    color: var(--meteora-accent-purple) !important;
+}
+
+.bg-dark-primary {
+    background: var(--meteora-bg-primary) !important;
+}
+
+.bg-dark-secondary {
+    background: var(--meteora-bg-secondary) !important;
+}
+
+.bg-dark-tertiary {
+    background: var(--meteora-bg-tertiary) !important;
+}
+
+.border-dark {
+    border-color: var(--meteora-border) !important;
+}
+
+/* ==================== 动画效果 ==================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-in {
+    animation: slideInRight 0.3s ease-out;
+}
+
+/* ==================== 应用加载状态 ==================== */
+.app-loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.app-loading::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 11, 15, 0.9);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-loading::after {
+    content: '🚀 Meteora监控平台正在启动...';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--meteora-accent-cyan);
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    z-index: 10000;
+    animation: pulse 2s infinite;
+}
+
+/* ==================== 主题变体 ==================== */
+.theme-cyber {
+    --meteora-bg-primary: #0d1421;
+    --meteora-bg-secondary: #1a2332;
+    --meteora-accent-cyan: #00ffff;
+    --meteora-accent-green: #39ff14;
+}
+
+.theme-ocean {
+    --meteora-bg-primary: #0a1728;
+    --meteora-bg-secondary: #1e3a5f;
+    --meteora-accent-cyan: #4fc3f7;
+    --meteora-accent-green: #26a69a;
+}
+
+/* ==================== 字体大小变体 ==================== */
+.font-size-compact {
+    --meteora-font-size-base: 12px;
+    --meteora-font-size-sm: 11px;
+    --meteora-font-size-xs: 10px;
+}
+
+.font-size-large {
+    --meteora-font-size-base: 16px;
+    --meteora-font-size-sm: 14px;
+    --meteora-font-size-xs: 12px;
+}
+
+/* ==================== 数据密度变体 ==================== */
+.density-high .meteora-table th,
+.density-high .meteora-table td {
+    padding: 0.25rem 0.5rem;
+    font-size: var(--meteora-font-size-xs);
+}
+
+.density-comfortable .meteora-table th,
+.density-comfortable .meteora-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: var(--meteora-font-size-base);
+}
+
+/* ==================== 动画变体 ==================== */
+.animations-none * {
+    animation: none !important;
+    transition: none !important;
+}
+
+.animations-subtle {
+    --meteora-transition: all 0.1s ease-in-out;
+    --meteora-transition-fast: all 0.05s ease-in-out;
+}
+
+.animations-rich {
+    --meteora-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --meteora-transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==================== 字体颜色修复 ==================== */
+/* 确保在暗色背景下所有重要文字都是白色 */
+.form-label,
+.form-label.small,
+.form-label.text-muted {
+    color: #ffffff !important;
+}
+
+.text-muted.small {
+    color: #ffffff !important;
+    opacity: 0.8;
+}
+
+.small.text-muted {
+    color: #ffffff !important;
+    opacity: 0.8;
+}
+
+/* 修复任何可能看不清的标签文字 */
+label,
+.label {
+    color: #ffffff !important;
+}
+
+/* 修复分隔符和说明文字 */
+.range-separator,
+.separator {
+    color: #ffffff !important;
+    font-weight: 500;
+}
+
+/* 修复池子数量显示文字 */
+.result-count,
+.result-count * {
+    color: #ffffff !important;
+}
+
+/* ==================== 数据变化趋势样式 ==================== */
+/* 趋势上升 - 绿色 */
+.trend-increase {
+    color: var(--meteora-accent-green) !important;
+    background: rgba(57, 255, 20, 0.1) !important;
+    border-radius: var(--meteora-radius-sm);
+    transition: var(--meteora-transition);
+}
+
+/* 趋势下降 - 红色 */
+.trend-decrease {
+    color: #ff4757 !important;
+    background: rgba(255, 71, 87, 0.1) !important;
+    border-radius: var(--meteora-radius-sm);
+    transition: var(--meteora-transition);
+}
+
+/* 趋势中性/首次加载 - 默认白色，无背景 */
+.trend-neutral {
+    color: inherit;
+    background: transparent;
+}
+
+/* 增强趋势变化的视觉效果 */
+.trend-increase:hover {
+    background: rgba(57, 255, 20, 0.2) !important;
+    transform: scale(1.02);
+}
+
+.trend-decrease:hover {
+    background: rgba(255, 71, 87, 0.2) !important;
+    transform: scale(1.02);
+}
+
+/* 为表格单元格中的趋势元素添加内边距 */
+.meteora-table .trend-increase,
+.meteora-table .trend-decrease {
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: fit-content;
+}
+
+/* 趋势图标支持（可选，如果需要添加箭头图标） */
+.trend-increase::before {
+    content: '↗';
+    margin-right: 4px;
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+.trend-decrease::before {
+    content: '↘';
+    margin-right: 4px;
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+/* ==================== 视图切换器样式 ==================== */
+.view-switcher {
+    margin-right: var(--meteora-spacing-lg);
+}
+
+.view-switcher .btn-group {
+    box-shadow: var(--meteora-shadow-sm);
+    border-radius: var(--meteora-radius-md);
+    overflow: hidden;
+}
+
+.view-switcher .btn {
+    border: 1px solid var(--meteora-border);
+    background: var(--meteora-bg-primary);
+    color: var(--meteora-text-secondary);
+    padding: 10px 20px;
+    font-size: var(--meteora-font-size-sm);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.view-switcher .btn:hover {
+    background: var(--meteora-bg-secondary);
+    color: var(--meteora-text-primary);
+    border-color: var(--meteora-accent-cyan);
+    transform: translateY(-1px);
+    box-shadow: var(--meteora-shadow-md);
+}
+
+.view-switcher .btn.active {
+    background: linear-gradient(135deg, var(--meteora-accent-cyan), var(--meteora-accent-green));
+    color: var(--meteora-bg-primary);
+    border-color: var(--meteora-accent-cyan);
+    box-shadow: var(--meteora-shadow-glow);
+    z-index: 1;
+}
+
+.view-switcher .btn.active:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+.view-switcher .btn i {
+    font-size: var(--meteora-font-size-sm);
+}
+
+/* 页面信息区域 */
+.page-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.page-info .page-title {
+    margin: 0;
+    font-size: var(--meteora-font-size-lg);
+    font-weight: 600;
+    color: var(--meteora-text-primary);
+}
+
+.page-info .result-count {
+    margin-top: 2px;
+}
+
+/* 内容容器 */
+.content-container {
+    position: relative;
+    min-height: 500px;
+}
+
+.view-content {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.view-content.d-none {
+    display: none !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 报警记录视图样式 */
+.alert-records-section {
+    background: var(--meteora-bg-secondary);
+    border-radius: var(--meteora-radius-lg);
+    padding: var(--meteora-spacing-lg);
+    border: 1px solid var(--meteora-border);
+    min-height: 400px;
+}
+
+.alert-header {
+    border-bottom: 1px solid var(--meteora-border);
+    padding-bottom: var(--meteora-spacing-md);
+    margin-bottom: var(--meteora-spacing-lg);
+}
+
+.alert-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--meteora-spacing-sm);
+}
+
+.alert-records-container {
+    max-height: 600px;
+    overflow-y: auto;
+    border-radius: var(--meteora-radius-md);
+    background: var(--meteora-bg-primary);
+    border: 1px solid var(--meteora-border);
+}
+
+/* 图表占位符样式 */
+.chart-placeholder {
+    background: var(--meteora-bg-secondary);
+    border-radius: var(--meteora-radius-lg);
+    padding: var(--meteora-spacing-xl);
+    border: 1px solid var(--meteora-border);
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .view-switcher .btn {
+        padding: 8px 12px;
+        font-size: var(--meteora-font-size-xs);
+    }
+
+    .view-switcher .btn .btn-text {
+        display: none;
+    }
+
+    .page-info .page-title {
+        font-size: var(--meteora-font-size-base);
+    }
+
+    .toolbar {
+        flex-direction: column;
+        gap: var(--meteora-spacing-md);
+    }
+
+    .toolbar-left,
+    .toolbar-right {
+        width: 100%;
+    }
+
+    .alert-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--meteora-spacing-sm);
+    }
+
+    .alert-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* 🔧 修改：报警池子呼吸灯效果 - 只闪烁池子名称，不闪烁整行 */
+@keyframes alertBreathing {
+    0% {
+        background: rgba(255, 68, 68, 0.3);
+        box-shadow: 0 0 5px #ff4444;
+        transform: scale(1);
+    }
+
+    50% {
+        background: rgba(255, 102, 102, 0.5);
+        box-shadow: 0 0 10px #ff6666, 0 0 15px #ff6666;
+        transform: scale(1.05);
+    }
+
+    100% {
+        background: rgba(255, 68, 68, 0.3);
+        box-shadow: 0 0 5px #ff4444;
+        transform: scale(1);
+    }
+}
+
+@keyframes alertPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        color: #ff4444;
+        text-shadow: 0 0 5px #ff4444;
+    }
+
+    50% {
+        opacity: 0.7;
+        color: #ff6666;
+        text-shadow: 0 0 10px #ff6666, 0 0 20px #ff6666;
+    }
+}
+
+/* 🔧 修改：只对池子名称应用闪烁动画 */
+.alert-pool-name {
+    animation: alertBreathing 2s ease-in-out infinite;
+    font-weight: bold;
+    border-radius: 4px;
+    padding: 4px 8px;
+    display: inline-block;
+    transition: all 0.3s ease;
+    background: rgba(255, 68, 68, 0.2);
+    border: 1px solid #ff4444;
+}
+
+/* 🔧 移除：不再对整行应用动画，只添加左边框标识 */
+.alert-pool-row {
+    border-left: 4px solid #ff4444 !important;
+    position: relative;
+    /* 移除了 animation: alertBreathing */
+}
+
+.alert-pool-row::before {
+    content: '🚨';
+    position: absolute;
+    left: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    animation: alertPulse 1s ease-in-out infinite;
+}
+
+/* 报警池子悬停效果 */
+.alert-pool-name:hover {
+    background: rgba(255, 102, 102, 0.4);
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+/* 为了不影响其他元素，只在特定情况下应用动画 */
+.meteora-table .alert-pool-name {
+    background: rgba(255, 68, 68, 0.2);
+    border: 1px solid #ff4444;
+}
+
+/* 确保动画在不同主题下都能正常显示 */
+@media (prefers-color-scheme: light) {
+    .alert-pool-name {
+        color: #cc0000;
+        text-shadow: 0 0 3px #cc0000;
+        background: rgba(204, 0, 0, 0.1);
+        border: 1px solid #cc0000;
+    }
+
+    .alert-pool-row {
+        border-left: 4px solid #cc0000 !important;
+    }
+}

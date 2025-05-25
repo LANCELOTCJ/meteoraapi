@@ -1,0 +1,507 @@
+/**
+ * Meteora监控平台 V2.0 - 图表样式
+ * 专用于数据可视化组件的样式定义
+ */
+
+/* ==================== 图表容器样式 ==================== */
+.chart-container {
+    flex: 1;
+    background: var(--meteora-bg-primary);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-header {
+    background: var(--meteora-bg-secondary);
+    border-bottom: 1px solid var(--meteora-border);
+    padding: var(--meteora-spacing-lg);
+}
+
+.chart-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--meteora-spacing-md);
+}
+
+.chart-options {
+    display: flex;
+    align-items: center;
+    gap: var(--meteora-spacing-sm);
+}
+
+/* ==================== 图表类型按钮 ==================== */
+.chart-type-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--meteora-spacing-xs);
+    padding: 0.375rem 0.75rem;
+    font-size: var(--meteora-font-size-sm);
+    white-space: nowrap;
+    transition: var(--meteora-transition);
+}
+
+.chart-type-btn i {
+    font-size: 0.875rem;
+}
+
+.chart-type-btn.active {
+    background: var(--meteora-accent-cyan);
+    border-color: var(--meteora-accent-cyan);
+    color: var(--meteora-bg-primary);
+}
+
+/* ==================== 图表内容区域 ==================== */
+.chart-content {
+    flex: 1;
+    padding: var(--meteora-spacing-lg);
+    overflow: auto;
+}
+
+.chart-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--meteora-spacing-lg);
+    margin-bottom: var(--meteora-spacing-lg);
+    min-height: 400px;
+}
+
+/* ==================== 主图表区域 ==================== */
+.main-chart-area {
+    background: var(--meteora-bg-secondary);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-md);
+    padding: var(--meteora-spacing-lg);
+    position: relative;
+}
+
+.main-chart-area canvas {
+    width: 100% !important;
+    height: 350px !important;
+}
+
+/* ==================== 副图表区域 ==================== */
+.side-charts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--meteora-spacing-lg);
+}
+
+.chart-card {
+    background: var(--meteora-bg-secondary);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-md);
+    padding: var(--meteora-spacing-md);
+    flex: 1;
+}
+
+.chart-title {
+    font-size: var(--meteora-font-size-sm);
+    font-weight: 600;
+    color: var(--meteora-text-secondary);
+    margin: 0 0 var(--meteora-spacing-md) 0;
+    text-align: center;
+}
+
+.chart-card canvas {
+    width: 100% !important;
+    height: 150px !important;
+}
+
+/* ==================== 统计卡片 ==================== */
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--meteora-spacing-lg);
+}
+
+.stat-card {
+    background: linear-gradient(135deg, var(--meteora-bg-secondary), #252832);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-md);
+    padding: var(--meteora-spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--meteora-spacing-md);
+    transition: var(--meteora-transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--meteora-accent-cyan), var(--meteora-accent-green));
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--meteora-shadow-lg);
+    border-color: var(--meteora-accent-cyan);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: var(--meteora-radius-md);
+    flex-shrink: 0;
+}
+
+.stat-icon i {
+    font-size: 1.5rem;
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--meteora-text-primary);
+    line-height: 1.2;
+    margin-bottom: 2px;
+}
+
+.stat-label {
+    font-size: var(--meteora-font-size-sm);
+    color: var(--meteora-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ==================== 图表加载状态 ==================== */
+.chart-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(26, 27, 35, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.chart-loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--meteora-spacing-md);
+}
+
+.chart-loading-text {
+    color: var(--meteora-text-secondary);
+    font-size: var(--meteora-font-size-sm);
+}
+
+/* ==================== 图表工具提示 ==================== */
+.chart-tooltip {
+    background: var(--meteora-bg-tertiary) !important;
+    border: 1px solid var(--meteora-border) !important;
+    border-radius: var(--meteora-radius-sm) !important;
+    color: var(--meteora-text-primary) !important;
+    font-size: var(--meteora-font-size-xs) !important;
+    padding: var(--meteora-spacing-sm) !important;
+    box-shadow: var(--meteora-shadow-md) !important;
+}
+
+/* ==================== 图表图例样式 ==================== */
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--meteora-spacing-md);
+    margin-top: var(--meteora-spacing-md);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--meteora-spacing-xs);
+    font-size: var(--meteora-font-size-xs);
+    color: var(--meteora-text-secondary);
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+/* ==================== 图表空状态 ==================== */
+.chart-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    color: var(--meteora-text-muted);
+    text-align: center;
+}
+
+.chart-empty-icon {
+    font-size: 3rem;
+    margin-bottom: var(--meteora-spacing-lg);
+    opacity: 0.5;
+}
+
+.chart-empty-title {
+    font-size: var(--meteora-font-size-lg);
+    font-weight: 600;
+    margin-bottom: var(--meteora-spacing-sm);
+}
+
+.chart-empty-message {
+    font-size: var(--meteora-font-size-sm);
+    max-width: 300px;
+}
+
+/* ==================== 图表控制面板 ==================== */
+.chart-control-panel {
+    background: var(--meteora-bg-tertiary);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-md);
+    padding: var(--meteora-spacing-md);
+    margin-bottom: var(--meteora-spacing-lg);
+}
+
+.chart-control-row {
+    display: flex;
+    align-items: center;
+    gap: var(--meteora-spacing-md);
+    margin-bottom: var(--meteora-spacing-sm);
+}
+
+.chart-control-row:last-child {
+    margin-bottom: 0;
+}
+
+.chart-control-label {
+    font-size: var(--meteora-font-size-xs);
+    color: var(--meteora-text-secondary);
+    font-weight: 500;
+    min-width: 80px;
+}
+
+/* ==================== 图表全屏模式 ==================== */
+.chart-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--meteora-bg-primary);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-fullscreen .chart-header {
+    flex-shrink: 0;
+}
+
+.chart-fullscreen .chart-content {
+    flex: 1;
+}
+
+.chart-fullscreen-btn {
+    position: absolute;
+    top: var(--meteora-spacing-md);
+    right: var(--meteora-spacing-md);
+    z-index: 10;
+}
+
+/* ==================== 图表数据表格 ==================== */
+.chart-data-table {
+    background: var(--meteora-bg-secondary);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-md);
+    overflow: hidden;
+    margin-top: var(--meteora-spacing-lg);
+}
+
+.chart-data-table table {
+    width: 100%;
+    margin: 0;
+}
+
+.chart-data-table th,
+.chart-data-table td {
+    padding: var(--meteora-spacing-sm);
+    font-size: var(--meteora-font-size-xs);
+    border-bottom: 1px solid var(--meteora-border);
+}
+
+.chart-data-table th {
+    background: var(--meteora-bg-tertiary);
+    color: var(--meteora-text-secondary);
+    font-weight: 600;
+}
+
+/* ==================== 响应式设计 ==================== */
+@media (max-width: 1200px) {
+    .chart-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .side-charts {
+        flex-direction: row;
+    }
+
+    .stats-cards {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .chart-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .chart-type-btn {
+        font-size: var(--meteora-font-size-xs);
+        padding: 0.25rem 0.5rem;
+    }
+
+    .chart-type-btn span {
+        display: none;
+    }
+
+    .side-charts {
+        flex-direction: column;
+    }
+
+    .stats-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        padding: var(--meteora-spacing-md);
+    }
+
+    .stat-value {
+        font-size: 1.25rem;
+    }
+
+    .chart-grid {
+        gap: var(--meteora-spacing-md);
+    }
+
+    .main-chart-area,
+    .chart-card {
+        padding: var(--meteora-spacing-md);
+    }
+
+    .main-chart-area canvas {
+        height: 250px !important;
+    }
+
+    .chart-card canvas {
+        height: 120px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-content {
+        padding: var(--meteora-spacing-md);
+    }
+
+    .chart-header {
+        padding: var(--meteora-spacing-md);
+    }
+
+    .chart-controls {
+        gap: var(--meteora-spacing-sm);
+    }
+}
+
+/* ==================== 图表动画效果 ==================== */
+@keyframes chartFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes statCountUp {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.chart-container.animate-in {
+    animation: chartFadeIn 0.5s ease-out;
+}
+
+.stat-value.animate-count {
+    animation: statCountUp 0.6s ease-out;
+}
+
+/* ==================== 图表主题变体 ==================== */
+.theme-cyber .stat-card::before {
+    background: linear-gradient(90deg, #00ffff, #39ff14);
+}
+
+.theme-cyber .stat-icon {
+    background: rgba(0, 255, 255, 0.1);
+}
+
+.theme-ocean .stat-card::before {
+    background: linear-gradient(90deg, #4fc3f7, #26a69a);
+}
+
+.theme-ocean .stat-icon {
+    background: rgba(79, 195, 247, 0.1);
+}
+
+/* ==================== 图表打印样式 ==================== */
+@media print {
+    .chart-container {
+        background: white !important;
+        color: black !important;
+    }
+
+    .chart-header,
+    .chart-controls {
+        display: none;
+    }
+
+    .chart-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .stat-card {
+        border: 1px solid #ccc !important;
+        background: white !important;
+    }
+
+    .stat-value {
+        color: black !important;
+    }
+}

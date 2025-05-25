@@ -1,0 +1,631 @@
+/**
+ * Meteora监控平台 V2.0 - 组件样式
+ * 特定组件的专用样式定义
+ */
+
+/* ==================== 数据表格组件 ==================== */
+.meteora-table .sortable-header {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: var(--meteora-transition);
+}
+
+.meteora-table .sortable-header:hover {
+    color: var(--meteora-accent-cyan);
+    background: rgba(0, 212, 255, 0.1);
+}
+
+.meteora-table .sort-icon {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+    opacity: 0;
+    transition: var(--meteora-transition);
+}
+
+.meteora-table .sortable-header:hover .sort-icon,
+.meteora-table .sortable-header.sorted .sort-icon {
+    opacity: 1;
+}
+
+.meteora-table .sortable-header.sorted {
+    color: var(--meteora-accent-cyan);
+}
+
+/* 数值单元格样式 */
+.cell-number {
+    text-align: right;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Consolas', monospace;
+    font-size: var(--meteora-font-size-sm);
+}
+
+.cell-positive {
+    color: var(--meteora-success);
+}
+
+.cell-negative {
+    color: var(--meteora-error);
+}
+
+.cell-neutral {
+    color: var(--meteora-text-secondary);
+}
+
+/* 地址单元格样式 */
+.cell-address {
+    font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Consolas', monospace;
+    font-size: var(--meteora-font-size-xs);
+    color: var(--meteora-text-secondary);
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cell-address:hover {
+    color: var(--meteora-accent-cyan);
+    cursor: pointer;
+}
+
+/* 可点击地址样式 */
+.clickable-address {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.clickable-address:hover {
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--meteora-accent-cyan) !important;
+    transform: scale(1.05);
+}
+
+.clickable-address:active {
+    transform: scale(0.95);
+}
+
+/* 池子名称样式 */
+.cell-pool-name {
+    font-weight: 500;
+    color: var(--meteora-text-primary);
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 百分比样式 */
+.cell-percentage {
+    font-weight: 500;
+}
+
+.cell-percentage.high {
+    color: var(--meteora-accent-green);
+}
+
+.cell-percentage.medium {
+    color: var(--meteora-accent-cyan);
+}
+
+.cell-percentage.low {
+    color: var(--meteora-text-secondary);
+}
+
+/* ==================== 趋势指示器 ==================== */
+.trend-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--meteora-font-size-xs);
+}
+
+.trend-icon {
+    font-size: 10px;
+}
+
+.trend-up {
+    color: var(--meteora-success);
+}
+
+.trend-down {
+    color: var(--meteora-error);
+}
+
+.trend-neutral {
+    color: var(--meteora-text-muted);
+}
+
+/* ==================== 数值格式化 ==================== */
+.value-large {
+    font-size: var(--meteora-font-size-base);
+    font-weight: 600;
+}
+
+.value-small {
+    font-size: var(--meteora-font-size-xs);
+    color: var(--meteora-text-muted);
+}
+
+.value-currency::before {
+    content: '$';
+    color: var(--meteora-text-muted);
+}
+
+.value-percentage::after {
+    content: '%';
+    color: var(--meteora-text-muted);
+}
+
+/* ==================== 字段配置组件 ==================== */
+.field-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.field-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    background: var(--meteora-bg-primary);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-sm);
+    margin-bottom: 6px;
+    cursor: move;
+    transition: var(--meteora-transition);
+}
+
+.field-item:hover {
+    background: var(--meteora-bg-secondary);
+    border-color: var(--meteora-accent-cyan);
+}
+
+.field-item.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.field-checkbox {
+    margin-right: 8px;
+    accent-color: var(--meteora-accent-cyan);
+}
+
+.field-name {
+    flex: 1;
+    font-size: var(--meteora-font-size-sm);
+    color: var(--meteora-text-primary);
+}
+
+.field-type {
+    font-size: var(--meteora-font-size-xs);
+    color: var(--meteora-text-muted);
+    text-transform: uppercase;
+    margin-left: 8px;
+}
+
+.field-drag-handle {
+    color: var(--meteora-text-muted);
+    cursor: move;
+    margin-left: 8px;
+}
+
+.field-drag-handle:hover {
+    color: var(--meteora-accent-cyan);
+}
+
+/* 拖拽状态 */
+.field-item.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+.field-item.drag-over {
+    border-color: var(--meteora-accent-cyan);
+    box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+}
+
+/* ==================== 状态指示器 ==================== */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: var(--meteora-radius-sm);
+    font-size: var(--meteora-font-size-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.online {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--meteora-success);
+    border: 1px solid var(--meteora-success);
+}
+
+.status-badge.offline {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--meteora-error);
+    border: 1px solid var(--meteora-error);
+}
+
+.status-badge.warning {
+    background: rgba(245, 158, 11, 0.2);
+    color: var(--meteora-warning);
+    border: 1px solid var(--meteora-warning);
+}
+
+/* ==================== 进度条组件 ==================== */
+.meteora-progress {
+    height: 6px;
+    background: var(--meteora-bg-tertiary);
+    border-radius: var(--meteora-radius-sm);
+    overflow: hidden;
+    position: relative;
+}
+
+.meteora-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--meteora-accent-cyan), var(--meteora-accent-green));
+    transition: width 0.3s ease;
+    position: relative;
+}
+
+.meteora-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* ==================== 图表占位符 ==================== */
+.chart-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    background: var(--meteora-bg-secondary);
+    border: 2px dashed var(--meteora-border);
+    border-radius: var(--meteora-radius-lg);
+    color: var(--meteora-text-muted);
+}
+
+.chart-placeholder-icon {
+    font-size: 3rem;
+    margin-bottom: var(--meteora-spacing-md);
+    color: var(--meteora-accent-cyan);
+}
+
+.chart-placeholder-text {
+    font-size: var(--meteora-font-size-base);
+    margin-bottom: var(--meteora-spacing-sm);
+}
+
+.chart-placeholder-subtext {
+    font-size: var(--meteora-font-size-sm);
+    color: var(--meteora-text-muted);
+}
+
+/* ==================== 通知组件 ==================== */
+.notification {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    max-width: 400px;
+    padding: var(--meteora-spacing-md);
+    background: var(--meteora-bg-secondary);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-md);
+    box-shadow: var(--meteora-shadow-lg);
+    z-index: 1050;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.notification.success {
+    border-left: 4px solid var(--meteora-success);
+}
+
+.notification.error {
+    border-left: 4px solid var(--meteora-error);
+}
+
+.notification.warning {
+    border-left: 4px solid var(--meteora-warning);
+}
+
+.notification.info {
+    border-left: 4px solid var(--meteora-accent-cyan);
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--meteora-spacing-sm);
+}
+
+.notification-title {
+    font-weight: 600;
+    color: var(--meteora-text-primary);
+    margin: 0;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: var(--meteora-text-muted);
+    cursor: pointer;
+    padding: 0;
+    font-size: 1.2rem;
+}
+
+.notification-close:hover {
+    color: var(--meteora-text-primary);
+}
+
+.notification-body {
+    color: var(--meteora-text-secondary);
+    font-size: var(--meteora-font-size-sm);
+}
+
+/* ==================== 搜索高亮 ==================== */
+.search-highlight {
+    background: rgba(0, 212, 255, 0.3);
+    color: var(--meteora-text-primary);
+    padding: 1px 2px;
+    border-radius: 2px;
+}
+
+/* ==================== 快捷键提示 ==================== */
+.keyboard-shortcut {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-size: var(--meteora-font-size-xs);
+    color: var(--meteora-text-muted);
+}
+
+.keyboard-key {
+    background: var(--meteora-bg-tertiary);
+    border: 1px solid var(--meteora-border);
+    border-radius: 3px;
+    padding: 1px 4px;
+    font-family: monospace;
+    font-size: 10px;
+    min-width: 16px;
+    text-align: center;
+}
+
+/* ==================== 加载骨架屏 ==================== */
+.skeleton {
+    background: linear-gradient(90deg, var(--meteora-bg-tertiary) 25%, var(--meteora-bg-secondary) 50%, var(--meteora-bg-tertiary) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: var(--meteora-radius-sm);
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton-text {
+    height: 14px;
+    margin-bottom: 8px;
+}
+
+.skeleton-text.short {
+    width: 60%;
+}
+
+.skeleton-text.medium {
+    width: 80%;
+}
+
+.skeleton-text.long {
+    width: 95%;
+}
+
+.skeleton-row {
+    padding: 12px;
+}
+
+/* ==================== 响应式表格 ==================== */
+@media (max-width: 768px) {
+    .meteora-table {
+        font-size: var(--meteora-font-size-xs);
+    }
+
+    .meteora-table th,
+    .meteora-table td {
+        padding: 0.25rem;
+    }
+
+    .cell-address {
+        max-width: 80px;
+    }
+
+    .cell-pool-name {
+        max-width: 100px;
+    }
+
+    .field-list {
+        max-height: 200px;
+    }
+
+    .notification {
+        max-width: calc(100vw - 40px);
+        right: 20px;
+    }
+}
+
+/* ==================== 深色模式滚动条 ==================== */
+.table-wrapper::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: var(--meteora-bg-tertiary);
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: var(--meteora-border);
+    border-radius: var(--meteora-radius-sm);
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: var(--meteora-accent-cyan);
+}
+
+/* ==================== 表格行选择 ==================== */
+.meteora-table tbody tr.selected {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: var(--meteora-accent-cyan);
+}
+
+.meteora-table tbody tr.selected td {
+    border-top: 1px solid var(--meteora-accent-cyan);
+    border-bottom: 1px solid var(--meteora-accent-cyan);
+}
+
+.meteora-table tbody tr.selected:first-child td {
+    border-top: 1px solid var(--meteora-accent-cyan);
+}
+
+.meteora-table tbody tr.selected:last-child td {
+    border-bottom: 1px solid var(--meteora-accent-cyan);
+}
+
+/* ==================== 上下文菜单 ==================== */
+.context-menu {
+    position: fixed;
+    background: var(--meteora-bg-secondary);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-md);
+    box-shadow: var(--meteora-shadow-lg);
+    z-index: 1060;
+    min-width: 150px;
+    padding: 4px 0;
+}
+
+.context-menu-item {
+    display: block;
+    width: 100%;
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    text-align: left;
+    color: var(--meteora-text-primary);
+    font-size: var(--meteora-font-size-sm);
+    cursor: pointer;
+    transition: var(--meteora-transition-fast);
+}
+
+.context-menu-item:hover {
+    background: var(--meteora-accent-cyan);
+    color: var(--meteora-bg-primary);
+}
+
+.context-menu-item.disabled {
+    color: var(--meteora-text-muted);
+    cursor: not-allowed;
+}
+
+.context-menu-item.disabled:hover {
+    background: none;
+    color: var(--meteora-text-muted);
+}
+
+.context-menu-divider {
+    height: 1px;
+    background: var(--meteora-border);
+    margin: 4px 0;
+}
+
+/* ==================== 表格加载进度条 ==================== */
+.table-loading-progress {
+    display: none;
+    background: var(--meteora-bg-secondary);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-md);
+    margin-bottom: var(--meteora-spacing-md);
+    padding: var(--meteora-spacing-sm) var(--meteora-spacing-md);
+    animation: slideInFromTop 0.3s ease-out;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 4px;
+    background: var(--meteora-bg-tertiary);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: var(--meteora-spacing-sm);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--meteora-accent-cyan), var(--meteora-accent-green));
+    animation: progressAnimation 1.5s ease-in-out infinite;
+}
+
+.loading-text {
+    display: flex;
+    align-items: center;
+    gap: var(--meteora-spacing-sm);
+    color: var(--meteora-text-secondary);
+    font-size: var(--meteora-font-size-sm);
+}
+
+.loading-text i {
+    color: var(--meteora-accent-cyan);
+}
+
+@keyframes progressAnimation {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    50% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes slideInFromTop {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

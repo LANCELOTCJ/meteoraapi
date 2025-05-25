@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meteora监控平台 V2.0 - 数据仪表板</title>
+
+    <!-- 外部CSS依赖 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- 自定义CSS -->
+    <link href="{{ url_for('static', filename='css/meteora-style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/components.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/filters.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/charts.css') }}" rel="stylesheet">
+</head>
+
+<body class="meteora-dark">
+    <!-- 主导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark-primary fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="fas fa-rocket me-2 text-accent-cyan"></i>
+                <span class="brand-text">Meteora监控平台</span>
+                <span class="version-badge">V2.0</span>
+            </a>
+
+            <div class="navbar-nav ms-auto d-flex flex-row align-items-center">
+                <!-- 实时状态指示器 -->
+                <div class="nav-item me-3">
+                    <span class="status-indicator" id="connectionStatus">
+                        <i class="fas fa-circle text-success me-1"></i>
+                        <small>实时连接</small>
+                    </span>
+                </div>
+
+                <!-- 系统统计 -->
+                <div class="nav-item me-3">
+                    <small class="text-muted">
+                        池数: <span id="totalPools" class="text-accent-cyan">-</span> |
+                        更新: <span id="lastUpdate" class="text-accent-cyan">-</span>
+                    </small>
+                </div>
+
+                <!-- 设置按钮 -->
+                <div class="nav-item">
+                    <button class="btn btn-outline-accent btn-sm" id="settingsBtn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <div class="main-container">
+        <!-- 侧边栏 - 筛选器和配置 -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <!-- 筛选器面板 -->
+                <div class="filter-panel">
+                    <div class="panel-header">
+                        <h5 class="panel-title">
+                            <i class="fas fa-filter me-2"></i>智能筛选
+                        </h5>
+                        <div class="panel-actions">
+                            <button class="btn btn-sm btn-outline-accent" id="clearFilters">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-accent" id="saveFilter">
+                                <i class="fas fa-save"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <!-- 快速筛选按钮 -->
+                        <div class="filter-section">
+                            <label class="filter-label">快速筛选</label>
+                            <div class="quick-filters-grid" id="quickFilters">
+                                <div class="quick-filter-btn active" data-filter="all">
+                                    <i class="fas fa-list"></i>
+                                    <div class="filter-name">全部池子</div>
+                                </div>
+                                <div class="quick-filter-btn" data-filter="high_tvl">
+                                    <i class="fas fa-coins"></i>
+                                    <div class="filter-name">大池子</div>
+                                    <div class="filter-desc">TVL > 1M</div>
+                                </div>
+                                <div class="quick-filter-btn" data-filter="super_high_tvl">
+                                    <i class="fas fa-gem"></i>
+                                    <div class="filter-name">超大池子</div>
+                                    <div class="filter-desc">TVL > 10M</div>
+                                </div>
+                                <div class="quick-filter-btn" data-filter="high_apy">
+                                    <i class="fas fa-chart-line"></i>
+                                    <div class="filter-name">高收益</div>
+                                    <div class="filter-desc">APY > 10%</div>
+                                </div>
+                                <div class="quick-filter-btn" data-filter="super_high_apy">
+                                    <i class="fas fa-fire"></i>
+                                    <div class="filter-name">超高收益</div>
+                                    <div class="filter-desc">APY > 50%</div>
+                                </div>
+                                <div class="quick-filter-btn" data-filter="active_trading">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    <div class="filter-name">活跃交易</div>
+                                    <div class="filter-desc">24h量 > 100K</div>
+                                </div>
+                                <div class="quick-filter-btn" data-filter="sol_pairs">
+                                    <i class="fas fa-sun"></i>
+                                    <div class="filter-name">SOL交易对</div>
+                                    <div class="filter-desc">包含SOL</div>
+                                </div>
+                                <div class="quick-filter-btn" data-filter="stable_pairs">
+                                    <i class="fas fa-balance-scale"></i>
+                                    <div class="filter-name">稳定币对</div>
+                                    <div class="filter-desc">包含USDC</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 高级筛选 -->
+                        <div class="filter-section">
+                            <label class="filter-label">高级筛选</label>
+
+                            <!-- 搜索框 -->
+                            <div class="mb-3">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                    <input type="text" class="form-control meteora-input" id="searchInput"
+                                        placeholder="池子名称或地址...">
+                                </div>
+                            </div>
+
+                            <!-- 流动性范围 -->
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">流动性 (TVL)</label>
+                                <div class="range-inputs">
+                                    <input type="number" class="form-control form-control-sm meteora-input"
+                                        id="minLiquidity" placeholder="最小TVL">
+                                    <span class="range-separator">至</span>
+                                    <input type="number" class="form-control form-control-sm meteora-input"
+                                        id="maxLiquidity" placeholder="最大TVL">
+                                </div>
+                            </div>
+
+                            <!-- APY范围 -->
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">年化收益率 (APY)</label>
+                                <div class="range-inputs">
+                                    <input type="number" class="form-control form-control-sm meteora-input" id="minApy"
+                                        placeholder="最小APY%" step="0.1">
+                                    <span class="range-separator">至</span>
+                                    <input type="number" class="form-control form-control-sm meteora-input" id="maxApy"
+                                        placeholder="最大APY%" step="0.1">
+                                </div>
+                            </div>
+
+                            <!-- 交易量范围 -->
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">24小时交易量</label>
+                                <div class="range-inputs">
+                                    <input type="number" class="form-control form-control-sm meteora-input"
+                                        id="minVolume" placeholder="最小交易量">
+                                    <span class="range-separator">至</span>
+                                    <input type="number" class="form-control form-control-sm meteora-input"
+                                        id="maxVolume" placeholder="最大交易量">
+                                </div>
+                            </div>
+
+                            <!-- Fee/TVL比率范围 -->
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">24H Fee/TVL 比率</label>
+                                <div class="range-inputs">
+                                    <input type="number" class="form-control form-control-sm meteora-input"
+                                        id="minFeeTvlRatio" placeholder="最小Fee/TVL%" step="0.01">
+                                    <span class="range-separator">至</span>
+                                    <input type="number" class="form-control form-control-sm meteora-input"
+                                        id="maxFeeTvlRatio" placeholder="最大Fee/TVL%" step="0.01">
+                                </div>
+                            </div>
+
+                            <!-- 1H估算日收益率范围 -->
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">1H估算日收益率</label>
+                                <div class="range-inputs">
+                                    <input type="number" class="form-control form-control-sm meteora-input"
+                                        id="minEstimatedDailyFeeRate" placeholder="最小收益率%" step="0.01">
+                                    <span class="range-separator">至</span>
+                                    <input type="number" class="form-control form-control-sm meteora-input"
+                                        id="maxEstimatedDailyFeeRate" placeholder="最大收益率%" step="0.01">
+                                </div>
+                            </div>
+
+                            <!-- 排序选项 -->
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">排序方式</label>
+                                <div class="row g-2">
+                                    <div class="col-8">
+                                        <select class="form-select form-select-sm meteora-select" id="sortField">
+                                            <option value="liquidity">流动性</option>
+                                            <option value="apy">APY收益率</option>
+                                            <option value="trade_volume_24h">24h交易量</option>
+                                            <option value="fees_24h">24h手续费</option>
+                                            <option value="fees_hour_1">1h手续费</option>
+                                            <option value="fee_tvl_ratio">24HFEE/TVL %</option>
+                                            <option value="estimated_daily_fee_rate">1H估算日收益率</option>
+                                            <option value="name">池子名称</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-4">
+                                        <select class="form-select form-select-sm meteora-select" id="sortDirection">
+                                            <option value="DESC">降序</option>
+                                            <option value="ASC">升序</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 筛选操作按钮 -->
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-accent btn-sm" id="applyFilters">
+                                    <i class="fas fa-filter me-1"></i>应用筛选
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm" id="clearFilters">
+                                    <i class="fas fa-times me-1"></i>清除筛选
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 字段配置面板 -->
+                <div class="config-panel mt-3">
+                    <div class="panel-header">
+                        <h5 class="panel-title">
+                            <i class="fas fa-columns me-2"></i>字段配置
+                        </h5>
+                        <button class="btn btn-sm btn-outline-accent" id="resetColumns">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                    </div>
+
+                    <div class="panel-body">
+                        <!-- 字段配置方案 -->
+                        <div class="config-section">
+                            <label class="filter-label">配置方案</label>
+                            <select class="form-select form-select-sm meteora-select" id="columnPresets">
+                                <option value="default">默认视图</option>
+                                <option value="trader">交易员视图</option>
+                                <option value="investor">投资者视图</option>
+                                <option value="technical">技术分析视图</option>
+                                <option value="custom">自定义配置</option>
+                            </select>
+                        </div>
+
+                        <!-- 字段列表 -->
+                        <div class="config-section">
+                            <label class="filter-label">显示字段</label>
+                            <div class="field-list" id="fieldList">
+                                <!-- 字段项将通过JavaScript动态生成 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <!-- 工具栏 -->
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <!-- 功能切换按钮 -->
+                    <div class="view-switcher">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-accent active" id="tableViewBtn"
+                                data-view="table">
+                                <i class="fas fa-table me-2"></i>数据表格
+                            </button>
+                            <button type="button" class="btn btn-outline-accent" id="chartViewBtn" data-view="chart">
+                                <i class="fas fa-chart-bar me-2"></i>图表分析
+                            </button>
+                            <button type="button" class="btn btn-outline-accent" id="alertViewBtn" data-view="alert">
+                                <i class="fas fa-bell me-2"></i>报警记录
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="page-info ms-3">
+                        <h4 class="page-title" id="pageTitle">
+                            <i class="fas fa-chart-line me-2 text-accent-cyan"></i>
+                            池子监控
+                        </h4>
+                        <div class="result-count">
+                            <small class="text-muted">
+                                显示 <span id="displayCount">0</span> / <span id="totalCount">0</span> 个池子
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toolbar-right">
+                    <!-- 刷新按钮 -->
+                    <button class="btn btn-outline-accent btn-sm me-2" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i>
+                        <span class="btn-text">刷新</span>
+                    </button>
+
+                    <!-- 导出按钮 -->
+                    <div class="btn-group me-2">
+                        <button class="btn btn-outline-accent btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-download"></i>
+                            <span class="btn-text">导出</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="#" id="exportCSV">
+                                    <i class="fas fa-file-csv me-2"></i>导出 CSV
+                                </a></li>
+                            <li><a class="dropdown-item" href="#" id="exportJSON">
+                                    <i class="fas fa-file-code me-2"></i>导出 JSON
+                                </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 内容容器 -->
+            <div class="content-container">
+                <!-- 数据表格视图 -->
+                <div class="view-content" id="tableView">
+                    <!-- 数据表格容器 -->
+                    <div class="table-container" id="tableContainer">
+                        <div class="table-wrapper">
+                            <table class="table table-dark table-hover meteora-table" id="poolsTable">
+                                <thead class="table-header">
+                                    <!-- 表头将通过JavaScript动态生成 -->
+                                </thead>
+                                <tbody id="tableBody">
+                                    <!-- 数据将通过JavaScript动态生成 -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 加载指示器 -->
+                        <div class="loading-overlay" id="loadingOverlay">
+                            <div class="loading-spinner">
+                                <div class="spinner-border text-accent-cyan" role="status">
+                                    <span class="visually-hidden">加载中...</span>
+                                </div>
+                                <p class="loading-text mt-2">正在获取数据...</p>
+                            </div>
+                        </div>
+
+                        <!-- 空数据状态 -->
+                        <div class="empty-state d-none" id="emptyState">
+                            <div class="empty-icon">
+                                <i class="fas fa-search text-muted"></i>
+                            </div>
+                            <h5 class="empty-title">未找到匹配的池子</h5>
+                            <p class="empty-message">尝试调整筛选条件或清除筛选器</p>
+                            <button class="btn btn-outline-accent btn-sm" id="clearFiltersBtn2">
+                                <i class="fas fa-times me-1"></i>清除筛选器
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 分页导航 -->
+                    <div class="pagination-container">
+                        <div class="pagination-info">
+                            <small class="text-muted">
+                                每页显示
+                                <select
+                                    class="form-select form-select-sm d-inline-block w-auto meteora-select ms-1 me-1"
+                                    id="pageSize">
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100" selected>100</option>
+                                    <option value="200">200</option>
+                                </select>
+                                条
+                            </small>
+                        </div>
+
+                        <nav aria-label="分页导航">
+                            <ul class="pagination pagination-sm meteora-pagination" id="pagination">
+                                <!-- 分页按钮将通过JavaScript动态生成 -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- 图表分析视图 -->
+                <div class="view-content d-none" id="chartView">
+                    <div class="chart-placeholder">
+                        <div class="text-center py-5">
+                            <i class="fas fa-chart-line text-accent-cyan" style="font-size: 4rem;"></i>
+                            <h4 class="mt-3 text-accent-cyan">图表分析</h4>
+                            <p class="text-muted">图表功能正在开发中...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 报警记录视图 -->
+                <div class="view-content d-none" id="alertView">
+                    <div class="alert-records-section">
+                        <div class="alert-header d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <h5 class="text-accent-cyan mb-1">
+                                    <i class="fas fa-history me-2"></i>历史报警记录
+                                </h5>
+                                <small class="text-muted">显示最近3天的报警记录</small>
+                            </div>
+                            <div class="alert-actions">
+                                <span class="badge bg-info me-3">
+                                    共 <span id="alertRecordCount">0</span> 条记录
+                                </span>
+                                <button class="btn btn-outline-accent btn-sm me-2" id="refreshAlertRecords">
+                                    <i class="fas fa-sync-alt"></i> 刷新
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm" id="clearAlertRecordsBtn">
+                                    <i class="fas fa-trash"></i> 清除记录
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 报警记录列表容器 -->
+                        <div id="alertRecordsList" class="alert-records-container">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-accent-cyan" role="status">
+                                    <span class="visually-hidden">加载中...</span>
+                                </div>
+                                <p class="mt-2 text-muted">正在加载报警记录...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 设置模态框 -->
+    <div class="modal fade" id="settingsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content bg-dark-secondary">
+                <div class="modal-header border-dark">
+                    <h5 class="modal-title">
+                        <i class="fas fa-cog me-2"></i>系统设置
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- 设置标签页 -->
+                    <ul class="nav nav-tabs nav-tabs-dark mb-3" id="settingsTabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#displaySettings">显示设置</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#alertSettings">警报设置</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#updateSettings">更新设置</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <!-- 显示设置 -->
+                        <div class="tab-pane fade show active" id="displaySettings">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">主题颜色</label>
+                                    <select class="form-select meteora-select" id="themeColor">
+                                        <option value="meteora">Meteora 暗色 (默认)</option>
+                                        <option value="cyber">赛博朋克</option>
+                                        <option value="ocean">深海蓝</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">字体大小</label>
+                                    <select class="form-select meteora-select" id="fontSize">
+                                        <option value="compact">紧凑 (12px)</option>
+                                        <option value="normal">标准 (14px)</option>
+                                        <option value="large">大字体 (16px)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">数据密度</label>
+                                    <select class="form-select meteora-select" id="dataDensity">
+                                        <option value="high">高密度</option>
+                                        <option value="normal">标准密度</option>
+                                        <option value="comfortable">舒适密度</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">动画效果</label>
+                                    <select class="form-select meteora-select" id="animations">
+                                        <option value="subtle">微妙</option>
+                                        <option value="normal">标准</option>
+                                        <option value="rich">丰富</option>
+                                        <option value="none">无动画</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 警报设置 -->
+                        <div class="tab-pane fade" id="alertSettings">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <strong>报警系统说明：</strong> 监控池子数据变化，当超过设定阈值时自动触发报警提醒
+                                    </div>
+                                </div>
+
+                                <!-- 启用报警系统 -->
+                                <div class="col-12">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="enableAlertsSystem">
+                                        <label class="form-check-label" for="enableAlertsSystem">
+                                            <strong>启用报警系统</strong>
+                                        </label>
+                                    </div>
+                                    <small class="text-muted">开启后将监控池子数据变化并发送报警</small>
+                                </div>
+
+                                <!-- 阈值设置 -->
+                                <div class="col-12">
+                                    <h6 class="text-accent-cyan mb-3">
+                                        <i class="fas fa-sliders-h me-2"></i>变化阈值设置
+                                    </h6>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">流动性(TVL)变化阈值</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" class="form-control meteora-input" id="liquidityThreshold"
+                                            value="20" min="1" max="100" step="0.1">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                    <small class="text-muted">当流动性变化超过此百分比时触发报警</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">24h交易量变化阈值</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" class="form-control meteora-input" id="volumeThreshold"
+                                            value="20" min="1" max="100" step="0.1">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                    <small class="text-muted">当24小时交易量变化超过此百分比时触发报警</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">24h手续费变化阈值</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" class="form-control meteora-input" id="fees24hThreshold"
+                                            value="20" min="1" max="100" step="0.1">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                    <small class="text-muted">当24小时手续费变化超过此百分比时触发报警</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">1h手续费变化阈值</label>
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" class="form-control meteora-input" id="fees1hThreshold"
+                                            value="20" min="1" max="100" step="0.1">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                    <small class="text-muted">当1小时手续费变化超过此百分比时触发报警</small>
+                                </div>
+
+                                <!-- 报警筛选设置 -->
+                                <div class="col-12">
+                                    <h6 class="text-accent-cyan mb-3 mt-4">
+                                        <i class="fas fa-filter me-2"></i>报警筛选设置
+                                    </h6>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="alertFilterEnabled">
+                                        <label class="form-check-label" for="alertFilterEnabled">
+                                            <strong>筛选条件报警</strong>
+                                        </label>
+                                    </div>
+                                    <small class="text-muted">只对符合当前筛选条件的池子进行报警监控</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="alertIncreaseOnlyEnabled">
+                                        <label class="form-check-label" for="alertIncreaseOnlyEnabled">
+                                            <strong>增量数据报警</strong>
+                                        </label>
+                                    </div>
+                                    <small class="text-muted">只在数据上升时报警，忽略数据下降</small>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="alert alert-warning alert-sm mt-2">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <strong>提示：</strong> 这两个开关可以独立启用，互不影响。筛选条件报警基于您在主页面设置的筛选器，增量数据报警只监控数值增长。
+                                    </div>
+                                </div>
+
+                                <!-- 声音设置 -->
+                                <div class="col-12">
+                                    <h6 class="text-accent-cyan mb-3 mt-4">
+                                        <i class="fas fa-volume-up me-2"></i>声音设置
+                                    </h6>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="soundAlertsEnabled" checked>
+                                        <label class="form-check-label" for="soundAlertsEnabled">启用声音提醒</label>
+                                    </div>
+                                    <small class="text-muted">报警触发时播放提示音</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-outline-accent btn-sm" id="testAlertSound">
+                                        <i class="fas fa-volume-up me-2"></i>测试声音
+                                    </button>
+                                    <small class="text-muted d-block mt-1">点击测试报警提示音效果</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">音量</label>
+                                    <input type="range" class="form-range meteora-range" id="alertSoundVolume" min="0"
+                                        max="100" value="70">
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-muted">静音</small>
+                                        <small class="text-muted">最大</small>
+                                    </div>
+                                </div>
+
+                                <!-- 报警记录 -->
+                                <div class="col-12">
+                                    <h6 class="text-accent-cyan mb-3 mt-4">
+                                        <i class="fas fa-bell me-2"></i>报警记录
+                                    </h6>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-outline-accent btn-sm" id="viewAlertRecords">
+                                        <i class="fas fa-eye me-2"></i>查看报警记录
+                                    </button>
+                                    <small class="text-muted d-block mt-1">查看历史报警记录和详细信息</small>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-outline-danger btn-sm" id="clearAlertRecords">
+                                        <i class="fas fa-trash me-2"></i>清除记录
+                                    </button>
+                                    <small class="text-muted d-block mt-1">清除所有历史报警记录</small>
+                                </div>
+
+                                <!-- 预设方案 -->
+                                <div class="col-12">
+                                    <h6 class="text-accent-cyan mb-3 mt-4">
+                                        <i class="fas fa-magic me-2"></i>预设方案
+                                    </h6>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="btn-group w-100" role="group">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm"
+                                            id="conservativePreset">
+                                            保守型 (30%)
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm"
+                                            id="balancedPreset">
+                                            平衡型 (20%)
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm"
+                                            id="sensitivePreset">
+                                            敏感型 (10%)
+                                        </button>
+                                    </div>
+                                    <small class="text-muted d-block mt-2">快速应用预设的阈值配置方案</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 更新设置 -->
+                        <div class="tab-pane fade" id="updateSettings">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="autoRefresh" checked>
+                                        <label class="form-check-label" for="autoRefresh">自动刷新数据</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">刷新间隔</label>
+                                    <select class="form-select meteora-select" id="refreshInterval">
+                                        <option value="15">15秒</option>
+                                        <option value="30" selected>30秒</option>
+                                        <option value="60">1分钟</option>
+                                        <option value="300">5分钟</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">后台更新</label>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="backgroundUpdate" checked>
+                                        <label class="form-check-label" for="backgroundUpdate">后台静默更新</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-dark">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-accent" id="saveSettings">保存设置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 外部JS依赖 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- 自定义JS -->
+    <script src="{{ url_for('static', filename='js/meteora-core.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/filters.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/table-manager.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/config-manager.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chart-manager.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/websocket-client.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+
+</html>

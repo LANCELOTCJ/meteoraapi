@@ -1,0 +1,709 @@
+/**
+ * Meteora监控平台 V2.0 - 筛选器样式
+ * 高级筛选器组件的专用样式
+ */
+
+/* ==================== 筛选器容器 ==================== */
+.filter-container {
+    position: relative;
+}
+
+.filter-active-indicator {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 8px;
+    height: 8px;
+    background: var(--meteora-accent-cyan);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: scale(1.2);
+    }
+}
+
+/* ==================== 范围滑块增强 ==================== */
+.range-slider-container {
+    position: relative;
+    margin: 12px 0;
+}
+
+.dual-range-slider {
+    position: relative;
+    height: 20px;
+}
+
+.dual-range-slider input[type="range"] {
+    position: absolute;
+    width: 100%;
+    height: 6px;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.dual-range-slider input[type="range"]::-webkit-slider-track {
+    height: 6px;
+    background: var(--meteora-bg-tertiary);
+    border-radius: 3px;
+}
+
+.dual-range-slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--meteora-accent-cyan);
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: all;
+    border: 2px solid var(--meteora-bg-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: var(--meteora-transition);
+}
+
+.dual-range-slider input[type="range"]::-webkit-slider-thumb:hover {
+    background: var(--meteora-accent-green);
+    transform: scale(1.1);
+}
+
+.dual-range-slider input[type="range"]::-moz-range-track {
+    height: 6px;
+    background: var(--meteora-bg-tertiary);
+    border-radius: 3px;
+    border: none;
+}
+
+.dual-range-slider input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--meteora-accent-cyan);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid var(--meteora-bg-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.range-fill {
+    position: absolute;
+    top: 7px;
+    height: 6px;
+    background: linear-gradient(90deg, var(--meteora-accent-cyan), var(--meteora-accent-green));
+    border-radius: 3px;
+    transition: var(--meteora-transition);
+}
+
+.range-values {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: var(--meteora-font-size-xs);
+    color: var(--meteora-text-muted);
+}
+
+.range-value {
+    padding: 2px 6px;
+    background: var(--meteora-bg-tertiary);
+    border-radius: var(--meteora-radius-sm);
+    border: 1px solid var(--meteora-border);
+    color: var(--meteora-accent-cyan);
+    font-weight: 500;
+}
+
+/* ==================== 筛选器标签 ==================== */
+.filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--meteora-border);
+}
+
+.filter-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    background: var(--meteora-bg-tertiary);
+    border: 1px solid var(--meteora-accent-cyan);
+    border-radius: var(--meteora-radius-sm);
+    font-size: var(--meteora-font-size-xs);
+    color: var(--meteora-accent-cyan);
+    gap: 4px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.filter-tag-label {
+    font-weight: 500;
+}
+
+.filter-tag-value {
+    color: var(--meteora-text-secondary);
+}
+
+.filter-tag-remove {
+    background: none;
+    border: none;
+    color: var(--meteora-accent-cyan);
+    cursor: pointer;
+    padding: 0;
+    font-size: 12px;
+    line-height: 1;
+    margin-left: 2px;
+    transition: var(--meteora-transition-fast);
+}
+
+.filter-tag-remove:hover {
+    color: var(--meteora-error);
+    transform: scale(1.2);
+}
+
+/* ==================== 快速筛选按钮区域 ==================== */
+.quick-filters-section {
+    margin-bottom: var(--meteora-spacing-md);
+}
+
+.quick-filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.quick-filter-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 8px;
+    background: var(--meteora-bg-primary);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-md);
+    color: var(--meteora-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    min-height: 80px;
+    justify-content: center;
+    text-align: center;
+}
+
+.quick-filter-btn:hover {
+    border-color: var(--meteora-accent-cyan);
+    background: rgba(0, 212, 255, 0.05);
+    color: var(--meteora-accent-cyan);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 212, 255, 0.15);
+}
+
+.quick-filter-btn.active {
+    background: linear-gradient(135deg, var(--meteora-accent-cyan), var(--meteora-accent-green));
+    border-color: var(--meteora-accent-cyan);
+    color: var(--meteora-bg-primary);
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+}
+
+.quick-filter-btn.active:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 212, 255, 0.4);
+}
+
+.quick-filter-btn i {
+    font-size: 18px;
+    margin-bottom: 6px;
+    opacity: 0.8;
+}
+
+.quick-filter-btn.active i {
+    opacity: 1;
+}
+
+.filter-name {
+    font-size: var(--meteora-font-size-sm);
+    font-weight: 500;
+    margin-bottom: 2px;
+    line-height: 1.2;
+}
+
+.filter-desc {
+    font-size: var(--meteora-font-size-xs);
+    opacity: 0.7;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.quick-filter-btn.active .filter-desc {
+    opacity: 0.9;
+}
+
+/* ==================== 高级筛选输入框样式改进 ==================== */
+.range-inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.range-inputs input {
+    flex: 1;
+    min-width: 0;
+}
+
+.range-separator {
+    color: var(--meteora-text-muted);
+    font-size: var(--meteora-font-size-sm);
+    white-space: nowrap;
+    padding: 0 4px;
+}
+
+/* 隐藏滑块 */
+.range-slider {
+    display: none !important;
+}
+
+.range-labels {
+    display: none !important;
+}
+
+/* ==================== 高级筛选面板 ==================== */
+.advanced-filters {
+    background: var(--meteora-bg-primary);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-md);
+    padding: var(--meteora-spacing-md);
+    margin-top: var(--meteora-spacing-md);
+    display: none;
+}
+
+.advanced-filters.show {
+    display: block;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.advanced-filter-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: var(--meteora-bg-secondary);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-sm);
+    cursor: pointer;
+    transition: var(--meteora-transition);
+    margin-bottom: var(--meteora-spacing-md);
+}
+
+.advanced-filter-toggle:hover {
+    border-color: var(--meteora-accent-cyan);
+}
+
+.advanced-filter-toggle .icon {
+    transition: transform 0.3s ease;
+}
+
+.advanced-filter-toggle.expanded .icon {
+    transform: rotate(180deg);
+}
+
+/* ==================== 筛选器组 ==================== */
+.filter-group {
+    background: var(--meteora-bg-secondary);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-md);
+    padding: var(--meteora-spacing-md);
+    margin-bottom: var(--meteora-spacing-md);
+}
+
+.filter-group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--meteora-spacing-md);
+    padding-bottom: var(--meteora-spacing-sm);
+    border-bottom: 1px solid var(--meteora-border);
+}
+
+.filter-group-title {
+    font-weight: 600;
+    color: var(--meteora-text-primary);
+    font-size: var(--meteora-font-size-sm);
+    margin: 0;
+}
+
+.filter-group-toggle {
+    background: none;
+    border: none;
+    color: var(--meteora-text-muted);
+    cursor: pointer;
+    font-size: 16px;
+    transition: var(--meteora-transition);
+}
+
+.filter-group-toggle:hover {
+    color: var(--meteora-accent-cyan);
+}
+
+.filter-group-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--meteora-spacing-md);
+}
+
+/* ==================== 条件构建器 ==================== */
+.condition-builder {
+    background: var(--meteora-bg-tertiary);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-sm);
+    padding: var(--meteora-spacing-md);
+}
+
+.condition-row {
+    display: flex;
+    align-items: center;
+    gap: var(--meteora-spacing-sm);
+    margin-bottom: var(--meteora-spacing-sm);
+}
+
+.condition-field,
+.condition-operator,
+.condition-value {
+    flex: 1;
+    min-width: 0;
+}
+
+.condition-operator {
+    max-width: 100px;
+}
+
+.condition-remove {
+    background: var(--meteora-error);
+    border: none;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: var(--meteora-transition);
+    flex-shrink: 0;
+}
+
+.condition-remove:hover {
+    background: #dc2626;
+    transform: scale(1.1);
+}
+
+.condition-add {
+    background: var(--meteora-accent-cyan);
+    border: none;
+    color: var(--meteora-bg-primary);
+    padding: 6px 12px;
+    border-radius: var(--meteora-radius-sm);
+    cursor: pointer;
+    font-size: var(--meteora-font-size-sm);
+    font-weight: 500;
+    transition: var(--meteora-transition);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.condition-add:hover {
+    background: #00b8e6;
+    transform: translateY(-1px);
+}
+
+/* ==================== 搜索建议 ==================== */
+.search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--meteora-bg-secondary);
+    border: 1px solid var(--meteora-border);
+    border-top: none;
+    border-radius: 0 0 var(--meteora-radius-sm) var(--meteora-radius-sm);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: var(--meteora-shadow-md);
+}
+
+.search-suggestion {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--meteora-border);
+    transition: var(--meteora-transition-fast);
+    font-size: var(--meteora-font-size-sm);
+}
+
+.search-suggestion:hover,
+.search-suggestion.highlighted {
+    background: var(--meteora-accent-cyan);
+    color: var(--meteora-bg-primary);
+}
+
+.search-suggestion:last-child {
+    border-bottom: none;
+}
+
+.suggestion-text {
+    color: var(--meteora-text-primary);
+}
+
+.suggestion-meta {
+    color: var(--meteora-text-muted);
+    font-size: var(--meteora-font-size-xs);
+    margin-left: 8px;
+}
+
+/* ==================== 筛选器预设 ==================== */
+.filter-presets {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-preset {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: var(--meteora-bg-primary);
+    border: 1px solid var(--meteora-border);
+    border-radius: var(--meteora-radius-sm);
+    cursor: pointer;
+    transition: var(--meteora-transition);
+}
+
+.filter-preset:hover {
+    border-color: var(--meteora-accent-cyan);
+    background: var(--meteora-bg-secondary);
+}
+
+.filter-preset.active {
+    border-color: var(--meteora-accent-cyan);
+    background: rgba(0, 212, 255, 0.1);
+}
+
+.preset-name {
+    font-size: var(--meteora-font-size-sm);
+    color: var(--meteora-text-primary);
+    font-weight: 500;
+}
+
+.preset-description {
+    font-size: var(--meteora-font-size-xs);
+    color: var(--meteora-text-muted);
+    margin-top: 2px;
+}
+
+.preset-actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: var(--meteora-transition);
+}
+
+.filter-preset:hover .preset-actions {
+    opacity: 1;
+}
+
+.preset-action {
+    background: none;
+    border: none;
+    color: var(--meteora-text-muted);
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 2px;
+    transition: var(--meteora-transition-fast);
+}
+
+.preset-action:hover {
+    color: var(--meteora-accent-cyan);
+    background: rgba(0, 212, 255, 0.1);
+}
+
+/* ==================== 筛选器历史 ==================== */
+.filter-history {
+    max-height: 150px;
+    overflow-y: auto;
+    border-top: 1px solid var(--meteora-border);
+    padding-top: var(--meteora-spacing-sm);
+    margin-top: var(--meteora-spacing-sm);
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 8px;
+    border-radius: var(--meteora-radius-sm);
+    cursor: pointer;
+    transition: var(--meteora-transition-fast);
+    font-size: var(--meteora-font-size-xs);
+    margin-bottom: 2px;
+}
+
+.history-item:hover {
+    background: var(--meteora-bg-secondary);
+}
+
+.history-text {
+    color: var(--meteora-text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+}
+
+.history-time {
+    color: var(--meteora-text-muted);
+    font-size: 10px;
+    margin-left: 8px;
+}
+
+/* ==================== 响应式设计 ==================== */
+@media (max-width: 768px) {
+    .filter-group-content {
+        grid-template-columns: 1fr;
+    }
+
+    .condition-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .condition-operator {
+        max-width: none;
+    }
+
+    .quick-filters-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+    }
+
+    .quick-filter-btn {
+        min-height: 70px;
+        padding: 8px 6px;
+    }
+
+    .quick-filter-btn i {
+        font-size: 16px;
+        margin-bottom: 4px;
+    }
+
+    .filter-name {
+        font-size: var(--meteora-font-size-xs);
+    }
+
+    .filter-desc {
+        font-size: 10px;
+    }
+
+    .filter-tags {
+        gap: 4px;
+    }
+
+    .filter-tag {
+        padding: 2px 6px;
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .quick-filters-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .quick-filter-btn {
+        min-height: 60px;
+        padding: 6px 4px;
+    }
+
+    .quick-filter-btn i {
+        font-size: 14px;
+    }
+
+    .filter-name {
+        font-size: 11px;
+    }
+
+    .filter-desc {
+        display: none;
+        /* 在小屏幕上隐藏描述 */
+    }
+}
+
+/* ==================== 动画状态 ==================== */
+.filter-updating {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.filter-updating::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+    animation: scanning 1.5s infinite;
+}
+
+@keyframes scanning {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* ==================== 筛选器计数 ==================== */
+.filter-count {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: var(--meteora-accent-orange);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 5px;
+    border-radius: 10px;
+    min-width: 16px;
+    text-align: center;
+    line-height: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.filter-count.zero {
+    display: none;
+}

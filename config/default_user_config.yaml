@@ -1,0 +1,125 @@
+# 用户级配置模板 - 前端可实时修改
+filters:
+  # 默认筛选条件
+  default:
+    min_liquidity: null
+    max_liquidity: null
+    min_apy: null
+    max_apy: null
+    min_volume_24h: null
+    max_volume_24h: null
+    search_keyword: ""
+    sort_field: "liquidity"
+    sort_direction: "DESC"
+    limit: 100
+    
+  # 预设筛选组合
+  presets:
+    - name: "高收益池"
+      min_apy: 50
+      min_liquidity: 100000
+    - name: "大流动性池"
+      min_liquidity: 1000000
+    - name: "活跃交易池"
+      min_volume_24h: 100000
+
+# 警报配置
+alerts:
+  # 阈值设置
+  thresholds:
+    apy_change_percent: 20               # APY变化阈值（百分比）
+    liquidity_change_percent: 15         # 流动性变化阈值（百分比）
+    volume_change_percent: 30            # 交易量变化阈值（百分比）
+    
+  # 警报类型开关
+  types:
+    new_pool_alert: true                 # 新池子警报
+    apy_change_alert: true               # APY变化警报
+    liquidity_change_alert: true         # 流动性变化警报
+    volume_change_alert: false           # 交易量变化警报
+    
+  # 声音设置
+  sound:
+    enabled: true                        # 声音开关
+    volume: 0.7                          # 音量（0-1）
+    new_pool_sound: "new_pool.mp3"       # 新池子提醒音
+    alert_sound: "alert.mp3"             # 异常警报音
+    update_sound: "update.mp3"           # 更新完成音
+
+# 显示配置
+display:
+  # 表格设置
+  table:
+    default_columns:                     # 默认显示列
+      - "name"
+      - "address"
+      - "liquidity"
+      - "apy"
+      - "trade_volume_24h"
+      - "fees_24h"
+    rows_per_page: 100                   # 每页显示行数
+    auto_refresh_seconds: 30             # 自动刷新间隔
+    
+    # 自动更新详细配置
+    auto_update:
+      enabled: true                      # 启用前端自动更新
+      refresh_interval_seconds: 30       # 数据自动刷新间隔
+      background_update: true            # 后台更新（无需用户手动刷新网页）
+      update_animation: true             # 数据更新时的视觉提示
+      pause_on_user_interaction: true    # 用户操作时暂停自动更新
+      resume_delay_seconds: 5            # 用户操作结束后恢复更新的延迟
+
+    # 趋势指示器设置
+    trends:
+      enabled: true                      # 趋势功能总开关
+      default_period: "24h"              # 默认对比时间段
+      enabled_fields:                    # 启用趋势显示的字段
+        - "liquidity"
+        - "apy"
+        - "trade_volume_24h"
+      change_threshold: 2.0              # 变化阈值（百分比，小于此值显示平行箭头）
+
+  # 字段配置方案
+  column_configs:
+    - name: "默认视图"
+      columns: ["name", "address", "liquidity", "apy", "trade_volume_24h", "fees_24h"]
+      is_default: true
+    - name: "交易员视图"  
+      columns: ["name", "liquidity", "volume_hour_1", "volume_hour_12", "trade_volume_24h", "fees_24h"]
+    - name: "投资者视图"
+      columns: ["name", "liquidity", "apr", "apy", "farm_apr", "farm_apy"]
+    - name: "技术分析视图"
+      columns: ["name", "current_price", "reserve_x_amount", "reserve_y_amount", "bin_step"]
+      
+  # 图表设置
+  charts:
+    enabled_charts:                      # 启用的图表
+      - "top_liquidity"
+      - "top_apy"
+      - "volume_trend"
+    refresh_interval_seconds: 60         # 图表刷新间隔
+    
+  # 界面设置
+  ui:
+    theme: "dark"                        # 主题：dark(默认)/light - 模仿meteora暗色风格
+    language: "zh-CN"                    # 语言
+    timezone: "Asia/Shanghai"            # 时区
+    
+    # UI设计风格配置
+    design:
+      style: "meteora_inspired"          # 设计风格：模仿meteora官网风格
+      color_scheme: "dark_professional"  # 配色方案：专业暗色调
+      font_size: "compact"               # 字体大小：compact(紧凑)/normal/large
+      data_density: "high"               # 数据密度：高密度显示更多信息
+      animation_level: "subtle"          # 动画级别：subtle(微妙)/normal/rich
+
+# 监控配置
+monitoring:
+  # 监控开关
+  enabled: false                         # 监控总开关
+  
+  # 监控的筛选条件
+  filter_config: null                    # JSON格式的筛选条件
+  
+  # 检查间隔
+  check_interval_seconds: 60             # 监控检查间隔 
